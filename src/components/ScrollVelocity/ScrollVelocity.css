@@ -1,0 +1,31 @@
+.parallax {
+  position: relative;
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.scroller {
+  display: flex;
+  white-space: nowrap;
+  text-align: center;
+  font-family: var(--font-display, 'Outfit', sans-serif);
+  font-size: 2.25rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.1));
+  color: var(--almond, #EAE0D5);
+  text-transform: uppercase;
+}
+
+.scroller span {
+  flex-shrink: 0;
+  display: inline-block;
+}
+
+@media (min-width: 768px) {
+  .scroller {
+    font-size: 4.5rem;
+    line-height: 5rem;
+  }
+}
