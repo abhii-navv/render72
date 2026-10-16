@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Footer } from './components/Footer';
 import { LandingPage } from './pages/LandingPage';
 import { EventDetailPage } from './pages/EventDetailPage';
@@ -11,6 +11,17 @@ function App() {
   const [currentPage, setCurrentPage] = useState('home');
   const [selectedEventId, setSelectedEventId] = useState(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  useEffect(() => {
+    if (sidebarOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [sidebarOpen]);
 
   const navigate = (page, eventId = null) => {
     setCurrentPage(page);

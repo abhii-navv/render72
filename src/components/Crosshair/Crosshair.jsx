@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const LINE_STYLES = ['solid', 'dashed', 'dotted'];
 const EFFECTS = ['lock', 'glitch', 'none'];
@@ -37,6 +37,21 @@ const Crosshair = ({
   className = '',
   style
 }) => {
+  const [isTouchDevice, setIsTouchDevice] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    return window.matchMedia('(pointer: coarse)').matches || window.innerWidth <= 768;
+  });
+
+  useEffect(() => {
+    const handleResize = () => {
+      const isCoarse = window.matchMedia('(pointer: coarse)').matches;
+      const isMobile = window.innerWidth <= 768;
+      setIsTouchDevice(isCoarse || isMobile);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   const canvasRef = useRef(null);
   const wakeRef = useRef(null);
   const settings = {
@@ -57,10 +72,12 @@ const Crosshair = ({
   settingsRef.current = settings;
 
   useEffect(() => {
+    if (isTouchDevice) return;
     wakeRef.current?.();
   });
 
   useEffect(() => {
+    if (isTouchDevice) return;
     const canvas = canvasRef.current;
     const ctx = canvas?.getContext('2d');
     if (!canvas || !ctx) return undefined;
@@ -405,6 +422,8 @@ const Crosshair = ({
       wakeRef.current = null;
     };
   }, [containerRef]);
+
+  if (isTouchDevice) return null;
 
   return (
     <>
