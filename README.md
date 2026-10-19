@@ -45,7 +45,6 @@
 
 ```bash
 # Clone or download the project
-cd "render hacakathon"
 
 # Install dependencies
 npm install
